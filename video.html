@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iOS Correct Video Play</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    video {
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      background: black;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 18px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <video id="video" playsinline preload="auto" muted controls poster="your-poster.jpg">
+    <source src="assets/mov_bbb.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <button id="playButton">Play Video</button>
+
+  <script>
+    const video = document.getElementById('video');
+    const playButton = document.getElementById('playButton');
+
+    playButton.addEventListener('click', async () => {
+      try {
+        // Important: only unmute after playback starts successfully
+        await video.play();
+        video.muted = false; // AFTER playing
+        playButton.style.display = 'none'; // Hide play button
+      } catch (error) {
+        console.error("Error trying to play the video:", error);
+      }
+    });
+
+    // Optional: wait until enough data is loaded
+    video.addEventListener('canplaythrough', () => {
+      console.log('Video is ready to play through without interruption.');
+    });
+  </script>
+
+</body>
+</html>
